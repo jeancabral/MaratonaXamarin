@@ -10,14 +10,9 @@ namespace Cats.Models
     {
         public async Task<List<Cat>> GetCats()
         {
-            List<Cat> Cats;
-            var URLwebAPI = "http://demos.ticapacitacion.com/cats";
-            using (var Client = new System.Net.Http.HttpClient())
-            {
-                var JSON = await Client.GetStringAsync(URLwebAPI);
-                Cats = Newtonsoft.Json.JsonConvert.DeserializeObject<List<Cat>>(JSON);
-            }
-            return Cats;
+            var Service = new Services.AzureService<Cat>();
+            var Items = await Service.GetTable();
+            return Items.ToList();
         }
     }
 }
